@@ -2,7 +2,7 @@
 import io, { Socket } from "socket.io-client";
 import { ActiveUsersType, IAllNotification, IUser } from "../../Interfaces/Interface";
 
-const ENDPOINT = "http://localhost:3000";
+const ENDPOINT = "https://backend.trendhub.cloud";
 let socket: Socket | undefined; // Define socket as optional
 
 

@@ -27,7 +27,7 @@ const RoomPage = () => {
         sharedLinks: [
           {
             name: "Copy Link",
-            url: `http://localhost:5173/room/${roomId}`,
+            url: ` https://clearview-frontend-weld.vercel.app/room/${roomId}`,
           },
         ],
         scenario: {

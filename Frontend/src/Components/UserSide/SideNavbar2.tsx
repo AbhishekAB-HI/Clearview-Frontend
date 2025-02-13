@@ -82,19 +82,8 @@ const SideNavBarChat = () => {
     });
   }, []);
 
-  const groupedNotifications = Array.isArray(SaveAllNotifications)
-    ? SaveAllNotifications.reduce((acc: any, notification: any) => {
-        const senderId = notification?.sender?._id;
-        if (!acc[senderId]) {
-          acc[senderId] = { ...notification, count: 1 };
-        } else {
-          acc[senderId].count += 1;
-        }
-        return acc;
-      }, {})
-    : {};
+  
 
-  const groupedNotificationsArray = Object.values(groupedNotifications);
 
   // Toggle sidebar visibility
   const toggleSidebar = () => {

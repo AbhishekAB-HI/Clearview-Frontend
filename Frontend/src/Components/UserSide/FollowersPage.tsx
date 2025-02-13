@@ -8,7 +8,7 @@ import { sendfollow } from "../UserSide/GlobalSocket/CreateSocket";
 import { Users2Icon } from "lucide-react";
 import { findFollowers, followuser, getuserinfomations } from "../../Services/User_API/FollowerApi";
 import SideNavBar1 from "./sideNavBar1";
-import Navbar1 from "./NavBar1";
+import Navbar1 from "./Navbar1";
 
 const FollowersPage = () => {
 

@@ -1,10 +1,6 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
 import { Pagination, Navigation } from "swiper/modules";
 import profileimg from "../Images/Userlogo.png";
-import Navbar2 from "../UserSide/Navbar2";
-import SideNavBar from "../UserSide/SideNavbar";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Heart, Users, Users2Icon } from "lucide-react";
 import {
@@ -26,7 +22,8 @@ import { setChats, setSelectedChat } from "../../Redux-store/redux-slice";
 import { useDispatch, useSelector } from "react-redux";
 import { store } from "../../Redux-store/reduxstore";
 import io, { Socket } from "socket.io-client";
-import Navbar1 from "./NavBar1";
+import Navbar1 from "./Navbar1";
+
 import SideNavBar1 from "./sideNavBar1";
 
 let socket: Socket;

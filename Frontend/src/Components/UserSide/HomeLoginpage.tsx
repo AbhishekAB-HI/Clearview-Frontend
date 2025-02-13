@@ -14,8 +14,9 @@ import Swal from "sweetalert2";
 import EmojiPicker from "emoji-picker-react";
 import { AiOutlineSearch } from "react-icons/ai";
 import Posthomepage from "../UserSide/AddpostHome";
-import { Pagination, Navigation } from "swiper/modules";
+import { Navigation, Pagination } from "swiper/modules"; 
 import RenderReplies from "../UserSide/RenderReplies";
+
 import { Home, MessageSquare, Bell, Plus, InboxIcon } from "lucide-react";
 import {
   ActiveUsersType,
@@ -40,6 +41,7 @@ import {
 } from "../../Services/User_API/Homepageapis";
 import { getuserinfomations } from "../../Services/User_API/FollowerApi";
 import { ENDPOINT } from "../Constants/Constants";
+import "swiper/swiper-bundle.css"; 
 let selectedChatCompare: any;
 let socket: Socket;
 const HomeLoginPage = () => {
@@ -70,6 +72,9 @@ const HomeLoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const observer = useRef<IntersectionObserver | null>(null);
   const [showpostModal, setShowpostModal] = useState(false);
+
+
+  
 
   moment.updateLocale("en", {
     relativeTime: {
@@ -749,7 +754,9 @@ const HomeLoginPage = () => {
       {/* Navbar----------------------------------------------------------------------- */}
 
       <div className="flex ">
-       
+        {/* Sidebar --------------------------------------------------------------------- */}
+
+        {/* Sidebar */}
         <aside
           className={`fixed top-30 left-0 h-full bg-black text-gray-100 w-60 p-4 space-y-6 shadow-xl
               transition-transform duration-300 ease-in-out z-50
@@ -759,7 +766,7 @@ const HomeLoginPage = () => {
           {/* Create Post Button */}
           <button
             onClick={() => handlepostClick()}
-            className="w-full cursor-pointer  text-white bg-gradient-to-r from-blue-600 to-purple-600  hover:from-blue-500 hover:to-purple-500 rounded-lg px-4 py-3
+            className="w-full cursor-pointer  text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg hover:from-blue-500 hover:to-purple-500 rounded-lg px-4 py-3
             transition-all duration-200 flex items-center justify-center space-x-2 font-medium shadow-lg"
           >
             <Plus size={20} />
@@ -1004,12 +1011,12 @@ const HomeLoginPage = () => {
                                           <img
                                             src={mediaSrc}
                                             alt={`post-media-${index}`}
-                                            className="absolute inset-0 w-full h-full object-contain"
+                                            className="w-full h-auto max-h-[40vh] md:max-h-[60vh] lg:max-h-[70vh] object-contain"
                                           />
                                         ) : (
                                           <video
                                             controls
-                                            className="w-full h-full object-contain"
+                                            className="w-full h-auto max-h-[40vh] md:max-h-[60vh] lg:max-h-[70vh] object-contain"
                                           >
                                             <source
                                               src={mediaSrc}
@@ -1208,80 +1215,69 @@ const HomeLoginPage = () => {
                       )}
 
                       <div className="mt-4">
-                        <p className="text-md pb-5 text-left  text-white">
+                        <p className="text-md pb-5 text-left text-white">
                           {post.description}
                         </p>
                         {post.image.length > 0 || post.videos.length > 0 ? (
                           <div className="max-w-full mx-auto">
-                            {(post.image || post.videos) && (
-                              <div className="h-[30vh] md:h-[60vh] lg:h-[70vh] mb-4">
-                                <Swiper
-                                  modules={[Pagination, Navigation]}
-                                  spaceBetween={10}
-                                  slidesPerView={1}
-                                  navigation={
-                                    (post.image && post.image.length > 1) ||
-                                    post.image.length + post.videos.length >
-                                      1 ||
-                                    (post.videos && post.videos.length > 1)
-                                      ? {
-                                          nextEl: ".swiper-button-next-media",
-                                          prevEl: ".swiper-button-prev-media",
-                                        }
-                                      : false
-                                  }
-                                  pagination={{ clickable: true }}
-                                  className="w-full h-full relative"
-                                >
-                                  {/* Combine images and videos */}
-                                  {[
-                                    ...(post.image || []),
-                                    ...(post.videos || []),
-                                  ].map((mediaSrc, index) => (
-                                    <SwiperSlide
-                                      key={index}
-                                      className="flex items-center justify-center"
-                                    >
-                                      <div className="relative w-full h-full">
-                                        {/* Check if it's an image or video by file extension */}
-                                        {typeof mediaSrc === "string" &&
-                                        mediaSrc.match(
-                                          /\.(jpeg|jpg|gif|png)$/i
-                                        ) ? (
-                                          <img
+                            <div className="min-h-[40vh] md:min-h-[60vh] lg:min-h-[70vh] mb-4 relative">
+                              <Swiper
+                                modules={[Pagination, Navigation]}
+                                spaceBetween={10}
+                                slidesPerView={1}
+                                navigation={{
+                                  nextEl: ".swiper-button-next-custom",
+                                  prevEl: ".swiper-button-prev-custom",
+                                }}
+                                pagination={{ clickable: true }}
+                                className="w-full h-full"
+                              >
+                                {[
+                                  ...(post.image || []),
+                                  ...(post.videos || []),
+                                ].map((mediaSrc, index) => (
+                                  <SwiperSlide
+                                    key={index}
+                                    className="flex items-center justify-center w-full h-full"
+                                  >
+                                    <div className="relative w-full h-full">
+                                      {typeof mediaSrc === "string" &&
+                                      mediaSrc.match(
+                                        /\.(jpeg|jpg|gif|png)$/i
+                                      ) ? (
+                                        <img
+                                          src={mediaSrc}
+                                          alt={`post-media-${index}`}
+                                          className="w-full h-auto max-h-[40vh] md:max-h-[60vh] lg:max-h-[70vh] object-contain"
+                                        />
+                                      ) : (
+                                        <video
+                                          controls
+                                          className="w-full h-auto max-h-[40vh] md:max-h-[60vh] lg:max-h-[70vh] object-contain"
+                                        >
+                                          <source
                                             src={mediaSrc}
-                                            alt={`post-media-${index}`}
-                                            className="absolute inset-0 w-full h-full object-contain"
+                                            type="video/mp4"
                                           />
-                                        ) : (
-                                          <video
-                                            controls
-                                            className="w-full h-full object-contain"
-                                          >
-                                            <source
-                                              src={mediaSrc}
-                                              type="video/mp4"
-                                            />
-                                          </video>
-                                        )}
-                                      </div>
-                                    </SwiperSlide>
-                                  ))}
-                                  {(post.image && post.image.length > 1) ||
-                                  post.image.length + post.videos.length > 1 ||
-                                  (post.videos && post.videos.length > 1) ? (
-                                    <>
-                                      <button className="swiper-button-prev-media absolute top-1/2 left-4 transform -translate-y-1/2 z-10 text-white bg-black bg-opacity-50 rounded-full p-2 hover:bg-opacity-75 transition-all">
-                                        &#8592;
-                                      </button>
-                                      <button className="swiper-button-next-media absolute top-1/2 right-4 transform -translate-y-1/2 z-10 text-white bg-black bg-opacity-50 rounded-full p-2 hover:bg-opacity-75 transition-all">
-                                        &#8594;
-                                      </button>
-                                    </>
-                                  ) : null}
-                                </Swiper>
-                              </div>
-                            )}
+                                        </video>
+                                      )}
+                                    </div>
+                                  </SwiperSlide>
+                                ))}
+                              </Swiper>
+
+                              {/* Custom Navigation Buttons */}
+                              {post.image.length + post.videos.length > 1 && (
+                                <>
+                                  <button className="swiper-button-prev-custom absolute top-1/2 left-4 transform -translate-y-1/2 z-10 text-white bg-black bg-opacity-50 rounded-full p-2 hover:bg-opacity-75 transition-all">
+                                    &#8592;
+                                  </button>
+                                  <button className="swiper-button-next-custom absolute top-1/2 right-4 transform -translate-y-1/2 z-10 text-white bg-black bg-opacity-50 rounded-full p-2 hover:bg-opacity-75 transition-all">
+                                    &#8594;
+                                  </button>
+                                </>
+                              )}
+                            </div>
                           </div>
                         ) : (
                           <div></div>

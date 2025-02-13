@@ -17,7 +17,6 @@ import io, { Socket } from "socket.io-client";
 import Picker from "@emoji-mart/react";
 import { IoSend } from "react-icons/io5";
 import toast from "react-hot-toast";
-import { OrbitProgress } from "react-loading-indicators";
 import { ActiveUsersType, userInfo } from "../Interfaces/Interface";
 import {ActiveUsershere,initilizeSocket,joinChatRoom,sendMessage,setupOnMessageReceived,} from "../UserSide/GlobalSocket/CreateSocket";
 import { setSelectedChat } from "../../Redux-store/redux-slice";
@@ -36,7 +35,6 @@ let selectedChatCompare: any;
 const ChatPage: React.FC<{}> = () => {
 
   const [messages, setMessages] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState<string>("");
   const {chatId, dataId } = useParams<{ chatId: any; dataId: any }>();
   const [postImages, setPostImages] = useState<File[]>([]);
@@ -209,7 +207,6 @@ useEffect(()=>{
   };
 
   const handleSubmit = async (e: FormEvent) => {
-    setLoading(true);
     e.preventDefault();
 
     if (
@@ -235,7 +232,6 @@ useEffect(()=>{
 
       const response = await Sendmessages(formData);
       if (response.success) {
-        setLoading(false);
         sendMessage(response.getData);
         setMessages([...messages, response.getData]);
         setSelectedChat([...messages, response.getData]);
@@ -393,18 +389,18 @@ useEffect(()=>{
           </div>
 
           {/* Chat Messages */}
-          <div className="flex-1 bg-black  rounded-lg h-full w-full lg:w-[165vh] overflow-y-auto mt-20 lg:mt-24">
-            <div className="mt-20 mb-24 px-4 space-y-6">
+          <div className="flex-1 bg-black rounded-lg h-full w-full lg:w-[165vh] overflow-y-auto mt-20 lg:mt-24">
+            <div className="mt-10 mb-24 px-4 space-y-6">
               {messages.map((m) => (
                 <div
                   className={`flex items-start space-x-2 ${
                     m.sender._id === userId ? "justify-end" : "justify-start"
-                  } `}
+                  }`}
                   key={m._id}
                 >
                   {m.sender._id !== userId && (
                     <img
-                      className="rounded-full w-8 h-8 lg:w-12 lg:h-12"
+                      className="rounded-full w-10 h-10 lg:w-14 lg:h-14 object-cover"
                       src={
                         m.sender.image
                           ? m.sender.image
@@ -414,20 +410,20 @@ useEffect(()=>{
                     />
                   )}
                   <div
-                    className={`max-w-xs lg:max-w-md rounded-lg p-2 mt-5 ${
+                    className={`max-w-xs lg:max-w-md rounded-lg p-4 mt-2 ${
                       m.sender._id === userId
                         ? "bg-green-600 text-white shadow-md"
                         : "bg-gray-700 text-white shadow-md"
                     }`}
                   >
-                    <p className="text-sm  lg:text-lg font-semibold">
+                    <p className="text-sm lg:text-lg font-semibold">
                       {m.content}
                     </p>
                     {(m.image || m.videos) && (
-                      <div className="mt-2">
+                      <div className="mt-2 space-y-2">
                         {m.image && m.image.length > 0 ? (
                           <img
-                            className="rounded-md w-32 h-32 lg:w-40 lg:h-40 object-cover"
+                            className="rounded-md w-36 h-36 lg:w-48 lg:h-48 object-cover"
                             src={
                               m.image ||
                               "https://dummyimage.com/150x150/cccccc/ffffff&text=Uploadimage"
@@ -455,15 +451,8 @@ useEffect(()=>{
                 </div>
               ))}
               <div ref={messagesEndRef} />
-
-              {loading && (
-                <OrbitProgress
-                  color="#32cd32"
-                  size="medium"
-                  text=""
-                  textColor=""
-                />
-              )}
+              {/* Uncomment and adjust the loading spinner if needed */}
+        
             </div>
           </div>
 

@@ -7,7 +7,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { clearuserAccessTocken } from "../../Redux-store/redux-slice";
 import { FaUserCircle } from "react-icons/fa";
-import { AiOutlineSearch } from "react-icons/ai";
 import { API_USER_URL, ENDPOINT } from "../Constants/Constants";
 import toast from "react-hot-toast";
 import io, { Socket } from "socket.io-client";
@@ -17,8 +16,6 @@ import axiosClient from "../../Services/Axiosinterseptor";
 let socket: Socket;
 const Navbar2 = () => {
   type RootState = ReturnType<typeof store.getState>;
-  const [isOpen, setIsOpen] = useState(false);
-  const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [AccOpen, setAccOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -128,7 +125,6 @@ const Navbar2 = () => {
                 {AccOpen && (
                   <div
                 className="absolute top-60  lg:right-20 lg:top-0 w-32 mr-5 rounded-md  shadow-lg bg-white text-black  ring-1  ring-opacity-5" // Adjusted width and margin
-                    onMouseLeave={() => setIsOpen(false)}
                   >
                     <div className="py-1">
                       <Link

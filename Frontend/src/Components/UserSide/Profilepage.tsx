@@ -6,12 +6,10 @@ import {
   FaChevronRight,
   FaComment,
   FaEdit,
-  FaInfoCircle,
   FaPaperPlane,
 } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
+
 import { Pagination, Navigation } from "swiper/modules";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
@@ -21,7 +19,6 @@ import profileimg from "../Images/Userlogo.png";
 import EditProfileModal from "../UserSide/EditProfile";
 import Postpage from "../UserSide/Addpost";
 import EditPostModal from "../UserSide/EditpostPage";
-import Navbar2 from "../UserSide/Navbar2";
 import {
   IAllNotification,
   IPost,
@@ -38,12 +35,11 @@ import EditPasswordModal from "../UserSide/EditPassword";
 import { Heart, InboxIcon, Users, Users2Icon } from "lucide-react";
 import RenderReplies from "../UserSide/RenderReplies";
 import EmojiPicker from "emoji-picker-react";
-import SideNavBar2 from "../UserSide/Sidebar2";
 import { sendfollow } from "../UserSide/GlobalSocket/CreateSocket";
 import io, { Socket } from "socket.io-client";
 import axiosClient from "../../Services/Axiosinterseptor";
 import SideNavBar1 from "./sideNavBar1";
-import Navbar1 from "./NavBar1";
+import Navbar1 from "./Navbar1";
 let socket: Socket;
 const HomeProfilepage = () => {
   type RootState = ReturnType<typeof store.getState>;
@@ -67,18 +63,13 @@ const HomeProfilepage = () => {
   const [replyContent, setReplyContent] = useState("");
   const navigate = useNavigate();
   const [replyingTo, setReplyingTo] = useState<ReplyingToState | null>(null);
-  const [allCurrentPage, setallCurrentPage] = useState(1);
   const [postsPerPage] = useState(2);
   const [totalPosts, setTotalPosts] = useState(0);
   const [activeTab, setActiveTab] = useState("Posts");
-  const [getAlluser, setgetAlluser] = useState<IUser[]>([]);
-
   const [postsPerblockPage] = useState(1);
   const [currentblockPage, setblockCurrentPage] = useState(1);
   const [totalblockPosts, setblockTotalPosts] = useState(0);
-
   const [totalFollowers, settotalFollowers] = useState(0);
-  const [Totalusers, setTotalusers] = useState(0);
 
   const [getAllfollowers, setgetAllfollowes] = useState<IUser[]>([]);
 
@@ -251,61 +242,12 @@ const HomeProfilepage = () => {
   }, [currentfollowerPage]);
   const totalfollowersPages = Math.ceil(totalFollowers / postsPerPage);
 
-  useEffect(() => {
-    const findAllThePost = async () => {
-      try {
-        const { data } = await axiosClient.get(
-          `${API_CHAT_URL}/findallusers?page=${allCurrentPage}&limit=${postsPerPage}`
-        );
-        if (data.message === "Get all users") {
-          setgetAlluser(data.Allusers);
-          setTotalusers(data.totalusers);
-        } else {
-          toast.error("All users get fail");
-        }
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          const errorMessage =
-            error.response?.data?.message || "An error occurred";
-          toast.error(errorMessage);
-        } else {
-          toast.error("Unknown error occurred");
-        }
-        console.error("Error verifying OTP:", error);
-      }
-    };
+ 
 
-    findAllThePost();
-  }, []);
+  
 
-  const findAllThePost = async () => {
-    try {
-      const { data } = await axiosClient.get(
-        `${API_CHAT_URL}/findallusers?page=${allCurrentPage}&limit=${postsPerPage}`
-      );
-      if (data.message === "Get all users") {
-        setgetAlluser(data.Allusers);
-        setTotalusers(data.totalusers);
-      } else {
-        toast.error("All users get fail");
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const errorMessage =
-          error.response?.data?.message || "An error occurred";
-        toast.error(errorMessage);
-      } else {
-        toast.error("Unknown error occurred");
-      }
-      console.error("Error verifying OTP:", error);
-    }
-  };
+ 
 
-  useEffect(() => {
-    findAllThePost();
-  }, [allCurrentPage]);
-
-  const totalUsersPages = Math.ceil(Totalusers / postsPerPage);
 
   useEffect(() => {
     socket = io(ENDPOINT);
@@ -317,30 +259,7 @@ const HomeProfilepage = () => {
     };
   }, [userToken]);
 
-  useEffect(() => {
-    const getAllPost = async () => {
-      try {
-        const { data } = await axiosClient.get(`${API_CHAT_URL}/findallusers`);
-        if (data.message === "Get all users") {
-          setgetAlluser(data.Allusers);
-        } else {
-          toast.error("All users get fail");
-        }
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          const errorMessage =
-            error.response?.data?.message || "An error occurred";
-          toast.error(errorMessage);
-        } else {
-          toast.error("Unknown error occurred");
-        }
-        console.error("Error verifying OTP:", error);
-      }
-    };
-
-    getAllPost();
-  }, []);
-
+ 
   useEffect(() => {
     const findBlockedUsers = async () => {
       try {
@@ -767,32 +686,9 @@ const HomeProfilepage = () => {
 
   const [userID, setuserID] = useState<string>("");
 
-  const [menuOpenPost, setMenuOpenPost] = useState<string | null>(null);
 
-  const updateUsers = async () => {
-    try {
-      const { data } = await axiosClient.get(`${API_CHAT_URL}/findallusers`);
+  
 
-      if (data.message === "Get all users") {
-        setgetAlluser(data.Allusers);
-      } else {
-        toast.error("users not found");
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const errorMessage =
-          error.response?.data?.message || "An error occurred";
-        toast.error(errorMessage);
-      } else {
-        toast.error("Unknown error occurred");
-      }
-      console.error("Error verifying OTP:", error);
-    }
-  };
-
-  const handleMenuClick = (userId: string) => {
-    setMenuOpenPost(menuOpenPost === userId ? null : userId);
-  };
 
   const UpdateBlocking = async (userId: string, LogedUserId: unknown) => {
     try {
@@ -837,48 +733,6 @@ const HomeProfilepage = () => {
     }
   };
 
-  const handleBlockUser = async (userId: string, LogedUserId: string) => {
-    try {
-      const blockUser = userinfo?.blockedUser.some(
-        (userOne: any) => userOne === userId
-      );
-      const actionText = blockUser ? "Unblock user" : "Block user";
-      const confirmationText = blockUser
-        ? "Are you sure you want to Unblock user"
-        : " Are you sure you want to Block user";
-      Swal.fire({
-        title: confirmationText,
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: actionText,
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          const { data } = await axiosClient.patch(
-            `${API_MESSAGE_URL}/blockuser`,
-            { userId, LogedUserId }
-          );
-          if (data.message == "User blocked") {
-            findBlockedUsers();
-            getUserinfo();
-            fetchdatas();
-          } else {
-            toast.error("User blocked Failed");
-          }
-        }
-      });
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const errorMessage =
-          error.response?.data?.message || "An error occurred";
-        toast.error(errorMessage);
-      } else {
-        toast.error("Unknown error occurred");
-      }
-      console.error("Error verifying OTP:", error);
-    }
-  };
 
   useEffect(() => {
     const findUsers = async () => {
@@ -913,11 +767,9 @@ const HomeProfilepage = () => {
       if (data.message === "followed users") {
         if (data.isAlreadyFollowing) {
           sendfollow(userId, data.Userinfo, data.followingUser);
-          updateUsers();
           getUserinfo();
           fetchdatas();
         }
-        updateUsers();
         getUserinfo();
         fetchdatas();
       } else {
@@ -935,112 +787,8 @@ const HomeProfilepage = () => {
     }
   };
 
-  useEffect(() => {
-    const getAllPost = async () => {
-      try {
-        const { data } = await axiosClient.get(`${API_CHAT_URL}/findallusers`);
-        if (data.message === "Get all users") {
-          setgetAlluser(data.Allusers);
-        } else {
-          toast.error("All users get fail");
-        }
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          const errorMessage =
-            error.response?.data?.message || "An error occurred";
-          toast.error(errorMessage);
-        } else {
-          toast.error("Unknown error occurred");
-        }
-        console.error("Error verifying OTP:", error);
-      }
-    };
 
-    getAllPost();
-  }, []);
-
-  const handleReport = async (userId: string) => {
-    console.log(userId, "222222222222222222");
-    const reportReasons: { [key: string]: string } = {
-      "1": "Inappropriate content",
-      "2": "Spam or misleading",
-      "3": "Harassment or bullying",
-      "4": "I don't want to see this",
-      "6": "Adult content",
-      "5": "Other (please specify)",
-    };
-
-    const { value: reasonKey } = await Swal.fire({
-      title: "Report Post",
-      input: "select",
-      inputOptions: reportReasons,
-      inputPlaceholder: "Select a reason",
-      showCancelButton: true,
-      confirmButtonText: "Next",
-      inputValidator: (value) => {
-        if (!value) {
-          return "Please select a reason!";
-        }
-      },
-    });
-
-    if (reasonKey) {
-      let text = reportReasons[reasonKey as keyof typeof reportReasons];
-
-      if (reasonKey === "5") {
-        const { value: customText } = await Swal.fire({
-          input: "textarea",
-          inputLabel: "Please specify the reason",
-          inputPlaceholder: "Type your reason here...",
-          inputAttributes: {
-            "aria-label": "Type your message here",
-          },
-          showCancelButton: true,
-        });
-
-        text = customText;
-      }
-
-      if (text && text.trim().length > 0) {
-        try {
-          const { data } = await axiosClient.patch(
-            `${API_USER_URL}/reportuser`,
-            {
-              userId,
-              text,
-            }
-          );
-          if (data.message === "user Reported succesfully") {
-            toast.success("user Reported successfully");
-          } else {
-            toast.error("Failed to Report");
-          }
-        } catch (error: unknown) {
-          if (axios.isAxiosError(error)) {
-            if (!error.response) {
-              toast.error(
-                "Network error. Please check your internet connection."
-              );
-            } else {
-              const status = error.response.status;
-              if (status === 404) {
-                toast.error("Posts not found.");
-              } else if (status === 500) {
-                toast.error("Server error. Please try again later.");
-              } else {
-                toast.error("Something went wrong.");
-              }
-            }
-          } else if (error instanceof Error) {
-            toast.error(error.message);
-          } else {
-            toast.error("An unexpected error occurred.");
-          }
-          console.log("Error fetching posts:", error);
-        }
-      }
-    }
-  };
+  
 
   return (
     <div className="bg-black text-white min-h-screen">

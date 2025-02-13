@@ -27,6 +27,7 @@ import Otppage from "./Components/UserSide/otp.tsx";
 import ForgetOtppage from "./Components/UserSide/forgotOtp.tsx";
 import Forgetpassword from "./Components/UserSide/forgetpassword.tsx";
 import "./index.css";
+
 const App = () => {
   return (
     <>

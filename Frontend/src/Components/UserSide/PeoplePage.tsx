@@ -2,16 +2,14 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import {  useEffect, useState } from "react";
 import axios from "axios";
-import Navbar2 from "../UserSide/Navbar2";
 import {
   API_CHAT_URL,
 } from "../Constants/Constants";
 import { IUser } from "../Interfaces/Interface";
-import SideNavBar from "../UserSide/SideNavbar";
 import axiosClient from "../../Services/Axiosinterseptor";
 import { sendfollow } from "../UserSide/GlobalSocket/CreateSocket";
 import SideNavBar1 from "./sideNavBar1";
-import Navbar1 from "./NavBar1";
+import Navbar1 from "./Navbar1";
 
 const PeoplePage = () => {
 

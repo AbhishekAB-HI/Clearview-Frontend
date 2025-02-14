@@ -167,7 +167,7 @@ interface loginData {
 }
 
  export const googleSignIn = async () => {
-    window.location.href = "http://localhost:3000/auth";
+    window.location.href = "https://backend.trendhub.cloud/auth";
   };
 
 
